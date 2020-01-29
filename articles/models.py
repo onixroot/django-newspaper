@@ -12,8 +12,12 @@ class Article(models.Model):
 	on_delete=models.CASCADE,
 	)
 
+	class Meta:
+		ordering = ['-date']
+
 	def __str__(self):
 		return self.title
+		
 	def get_absolute_url(self):
 		return reverse('article_detail', args=[str(self.id)])
 
