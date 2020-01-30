@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.views.generic import ListView, DetailView
@@ -20,6 +20,9 @@ class ArticleDetailView(LoginRequiredMixin, DetailView):
 	model = Article
 	template_name = 'article_detail.html'
 	login_url = 'login'
+
+	def get_object(self):
+		return get_object_or_404(Article, pk=self.kwargs.get('pk'))
 
 class ArticleUpdateView(LoginRequiredMixin, UpdateView):
 	model = Article
