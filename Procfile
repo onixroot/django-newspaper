@@ -1,1 +1,1 @@
-web: gunicorn django-newspaper.wsgi --log-file -
+web: gunicorn newspaper_project.wsgi --log-file -
