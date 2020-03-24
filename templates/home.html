@@ -6,16 +6,17 @@
 
 {% block content %}
 	{% if user.is_authenticated %}
-		Hi {{ user.username }}!
+		Приветствуем тебя {{ user.username }}!
 	{% else %}
 		<p>You are not logged in</p>
 	{% endif %}
 
 	<div class="jumbotron">
-		<h1 class="display-?">Newspaper app</h1>
-		<p class="lead">A Newspaper website built with Django.</p>
+		<h1 class="display-?">Газета "Сельский Хакер"</h1>
+		<p class="lead">Свежие новости мира ИТ и не только от лучших хакеров нашего посёлка!</p>
 		<p class="lead">
-			<a class="btn btn-primary btn-lg" href="{% url 'article_list' %}" role="button">View All Articles</a>
+			<a class="btn btn-outline-primary" href="{% url 'article_list' %}" role="button">Все статьи</a>
+			<a class="btn btn-outline-primary" href="{% url 'category_list' %}" role="button">По категориям</a>
 		</p>
 	</div>
 

@@ -9,11 +9,11 @@
 <body>
 
 	<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-		<a class="navbar-brand" href="{% url 'home' %}">Newspaper</a>
+		<a class="navbar-brand" href="{% url 'home' %}">Сельский Хакер</a>
 
-		{% if user.is_authenticated %}
+		{% if perms.articles.add_article %}
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item"><a href="{% url 'article_new' %}">+ New</a></li>
+				<li class="nav-item"><a href="{% url 'article_new' %}">+ Добавить новость</a></li>
 			</ul>
 		{% endif %}
 

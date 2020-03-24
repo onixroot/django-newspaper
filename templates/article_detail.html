@@ -1,14 +1,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<div class="article-entry">
-		<h2>{{ object.title }}</h2>
-		<p>by {{ object.author }} | {{ object.date }}</p>
-		<p>{{ object.body }}</p>
+	<div class="card">
+		<div class="card-header">
+			<p><span class="font-weight"><h2>{{ article.title|truncatechars:100 }}</h2></span></p>
+			<p><span class="text-muted">Автор: {{ article.author }} | {{ article.date }}</span></p>
+			<span class="float-right">Категория: <a href="{% url 'category_detail' article.category.pk %}">{{ article.category.name }}</a></span>
+		</div>
+		<div class="card-body">
+			{{ article.body|linebreaks }}
+		</div>
+		{% if perms.articles.change_article and perms.articles.delete_article %}
+		<div class="card-footer text-center text-muted">
+			<a href="{% url 'article_edit' article.pk %}">Редактировать</a> |
+			<a href="{% url 'article_delete' article.pk %}">Удалить</a>
+		</div>
+		{% endif %}
+		{% for comment in article.comments.all %}
+		<div class="card-footer">
+			<p><span class="font-weight-bold">{{ comment.author }}</span><span class="text-muted">: {{ comment }}</span></p>
+		</div>
+		{% endfor %}
+	
 	</div>
-	<p>
-		<a href="{% url 'article_edit' article.pk %}">Edit</a> |
-		<a href="{% url 'article_delete' article.pk %}">Delete</a>
-	</p>
-	<p>Back to <a href="{% url 'article_list' %}">All Articles</a>.</p>
+	<p><a href="{% url 'article_list' %}">Все статьи</a></p>
 {% endblock content %}
