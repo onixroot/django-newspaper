@@ -6,6 +6,8 @@
 
 	{% if category %}
 	<center><h2>Новости категории {{ category.name }}</h2></center>
+	{% else %}
+	<center><h2>Все новости</h2></center>
 	{% endif %}
 
 	{% for article in articles %}
@@ -24,9 +26,8 @@
 			<a href="{% url 'article_delete' article.pk %}">Удалить</a>
 		</div>
 		{% endif %}
-
 	</div>
-	<br />
+	<br>
 	{% endfor %}
 
 	{% if is_paginated %}

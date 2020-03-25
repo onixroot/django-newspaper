@@ -4,8 +4,15 @@
 	<h1>Удалить статью</h1>
 	<form action="" method="post">{% csrf_token %}
 		<p>Вы уверены что хотите удалить статю ?</p>
-		<p>"{{ article.title|truncatechars:100 }}"?</p>
-		<p>Автор: {{ article.author }}</p>
+		<div class="card">
+			<div class="card-header">
+				<p><span class="font-weight">{{ article.title|truncatechars:100 }}</span></p>
+				<span class="text-muted">от {{ article.date }}</span>
+				<span class="float-right">Категория: <a href="{% url 'category_detail' article.category.pk %}">{{ article.category.name }}</a></span>
+			</div>
+		</div>
+		<br>
 		<button class="btn btn-danger ml-2" type="submit">Удалить</button>
 	</form>
 {% endblock content %}
+

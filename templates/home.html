@@ -5,6 +5,17 @@
 {% endblock title %}
 
 {% block content %}
+
+	<ul class="nav justify-content-center">
+		<li class="nav-item">
+			<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Категории:</a>
+		</li>
+		{% for category in categories %}
+		<li class="nav-item">
+			<a class="nav-link active" href="{% url 'category_detail' category.pk %}">{{ category.name }}</a>
+		</li>
+		{% endfor %}
+	</ul>
 	{% if user.is_authenticated %}
 		Приветствуем тебя {{ user.username }}!
 	{% else %}
@@ -16,7 +27,6 @@
 		<p class="lead">Свежие новости мира ИТ и не только от лучших хакеров нашего посёлка!</p>
 		<p class="lead">
 			<a class="btn btn-outline-primary" href="{% url 'article_list' %}" role="button">Все статьи</a>
-			<a class="btn btn-outline-primary" href="{% url 'category_list' %}" role="button">По категориям</a>
 		</p>
 	</div>
 
