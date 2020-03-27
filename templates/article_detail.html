@@ -3,7 +3,7 @@
 {% block content %}
 	<div class="card">
 		<div class="card-header">
-			<p><span class="font-weight"><h2>{{ article.title|truncatechars:100 }}</h2></span></p>
+			<p><span class="font-weight"><h2>{{ article.title }}</h2></span></p>
 			<span class="text-muted">Автор: {{ article.author }} | {{ article.date }}</span>
 			<span class="float-right">Категория: <a href="{% url 'category_detail' article.category.pk %}">{{ article.category.name }}</a></span>
 		</div>

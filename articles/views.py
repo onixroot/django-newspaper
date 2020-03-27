@@ -13,26 +13,17 @@ from .models import Article, Category, Comment
 class ArticleListView(ListView):
 	model = Article
 	template_name = 'article_list.html'
-	login_url = 'login'
 	context_object_name = 'articles'
 	paginate_by = 2
 
-	def get_queryset(self, *args, **kwargs):
-		self.category_id = self.kwargs.get('cat_id')
-		if self.category_id:
-			return Article.objects.filter(category=self.category_id)
-		return super().get_queryset()        
-
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
-		if self.category_id:
-			context['category'] = Category.objects.get(pk=self.category_id)
+		context['categories'] = Category.objects.all()
 		return context
 
 class ArticleDetailView(DetailView):
 	model = Article
 	template_name = 'article_detail.html'
-	login_url = 'login'
 
 class ArticleUpdateView(PermissionRequiredMixin, UpdateView):
 	model = Article
@@ -76,6 +67,17 @@ class CategoryListView(ListView):
 	model = Category
 	template_name = 'category_list.html'
 	context_object_name = 'categories'
+
+class CategoryDetailView(DetailView):
+	model = Category
+	template_name = 'category_detail.html'
+	context_object_name = 'category'
+	pk_url_kwarg = 'cat_id'
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['categories'] = Category.objects.all()
+		return context
 
 #Комментарии
 class CommentCreateView(LoginRequiredMixin, CreateView):
