@@ -1,14 +1,11 @@
-Based on books:<br>
-Django for Beginners - William S. Vincent<br>
-Django 2.1 Практика создания веб-сайтов на Python - Дронов В.А.<br>
-
 - CRUD
 - Registration
 - Authentication
 - Authorization
-- CustomUserModel
+- CustomUserModel (additional fields)
 - Pass Change/Reset
-- Staticfiles
+- Staticfiles (module whitenoise)
+- Querysets optimization (prefetch_related(), only())
 - Tests
 
 Heroku deployment:<br>

@@ -129,6 +129,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+DEFAULT_FROM_EMAIL = 'noreply@onix-newspaper.ru'
+
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'users.CustomUser'

@@ -4,7 +4,7 @@ from django.db import models
 from django.urls import reverse
 
 class Article(models.Model):
-	title = models.CharField(max_length=255, verbose_name='Заголовок')
+	title = models.CharField(max_length=250, verbose_name='Заголовок')
 	body = models.TextField(verbose_name='Текст статьи')
 	date = models.DateTimeField(auto_now_add=True)
 	category = models.ForeignKey('Category', null=True, on_delete=models.PROTECT, verbose_name='Категория')
@@ -40,13 +40,11 @@ class Comment(models.Model):
 	article = models.ForeignKey(
 		Article,
 		on_delete=models.CASCADE,
-		related_name='comments',
-		)
-	comment = models.CharField(max_length=140)
+		related_name='comments',)
+	comment = models.TextField(max_length=250)
 	author = models.ForeignKey(
 		get_user_model(),
-		on_delete=models.CASCADE,
-		)
+		on_delete=models.CASCADE,)
 
 	class Meta:
 		verbose_name = 'Комментарий'

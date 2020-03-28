@@ -4,10 +4,10 @@ from django.core.exceptions import PermissionDenied
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse, reverse_lazy
-
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from .models import Article, Category, Comment
+from .forms import CommentForm, ArticleForm
 
 #Статьи
 class ArticleListView(ListView):
@@ -15,11 +15,7 @@ class ArticleListView(ListView):
 	template_name = 'article_list.html'
 	context_object_name = 'articles'
 	paginate_by = 2
-
-	def get_context_data(self, **kwargs):
-		context = super().get_context_data(**kwargs)
-		context['categories'] = Category.objects.all()
-		return context
+	extra_context = {'categories': Category.objects.all()}
 
 class ArticleDetailView(DetailView):
 	model = Article
@@ -52,9 +48,8 @@ class ArticleDeleteView(PermissionRequiredMixin, DeleteView):
 		return super().dispatch(request, *args, **kwargs)
 
 class ArticleCreateView(PermissionRequiredMixin, CreateView):
-	model = Article
+	form_class = ArticleForm
 	template_name = 'article_new.html'
-	fields = ('title', 'body', 'category')
 	login_url = 'login'
 	permission_required = 'articles.add_article'
 
@@ -62,28 +57,23 @@ class ArticleCreateView(PermissionRequiredMixin, CreateView):
 		form.instance.author = self.request.user
 		return super().form_valid(form)
 
-#Категории
-class CategoryListView(ListView):
-	model = Category
-	template_name = 'category_list.html'
-	context_object_name = 'categories'
 
+#Категории
 class CategoryDetailView(DetailView):
 	model = Category
 	template_name = 'category_detail.html'
 	context_object_name = 'category'
 	pk_url_kwarg = 'cat_id'
+	extra_context = {'categories': Category.objects.only('name')}
 
-	def get_context_data(self, **kwargs):
-		context = super().get_context_data(**kwargs)
-		context['categories'] = Category.objects.all()
-		return context
+	def get_queryset(self, *args, **wkargs):
+		return Category.objects.prefetch_related('article_set')
+
 
 #Комментарии
 class CommentCreateView(LoginRequiredMixin, CreateView):
-	model = Comment
+	form_class = CommentForm
 	template_name = 'comment_new.html'
-	fields = ['comment']
 	login_url = 'login'
 
 	def form_valid(self, form):
