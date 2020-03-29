@@ -1,7 +1,16 @@
-from django.forms import ModelForm, CharField, Textarea
+from django.forms import (
+	ModelForm,
+	CharField,
+	Textarea,
+	Form,
+	ModelChoiceField,
+	)
+
+from django.forms.widgets import Select
+
 from django.core.exceptions import ValidationError
 
-from .models import Comment, Article
+from .models import Comment, Article, Category
 
 class CommentForm(ModelForm):
 	comment = CharField(
@@ -27,3 +36,13 @@ class ArticleForm(ModelForm):
 		model = Article
 		fields = ('title', 'body', 'category')
 		help_texts = {'title': 'Заколовок максимум 250 символов.'}
+
+class SearchForm(Form):
+	keyword = CharField(
+		max_length=30,
+		label='Ключевое слово',)
+	category = ModelChoiceField(
+		queryset=Category.objects.all(),
+		label='Категория',
+		empty_label='',
+		)

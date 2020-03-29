@@ -5,9 +5,10 @@ from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.db.models import Q
 
 from .models import Article, Category, Comment
-from .forms import CommentForm, ArticleForm
+from .forms import CommentForm, ArticleForm, SearchForm
 
 #Статьи
 class ArticleListView(ListView):
@@ -15,11 +16,18 @@ class ArticleListView(ListView):
 	template_name = 'article_list.html'
 	context_object_name = 'articles'
 	paginate_by = 2
-	extra_context = {'categories': Category.objects.all()}
+	extra_context = {
+		'categories': Category.objects.only('name'),
+		'form': SearchForm,
+		}
 
 class ArticleDetailView(DetailView):
 	model = Article
 	template_name = 'article_detail.html'
+	extra_context = {
+		'categories': Category.objects.only('name'),
+		'form': SearchForm,
+		}
 
 class ArticleUpdateView(PermissionRequiredMixin, UpdateView):
 	model = Article
@@ -64,7 +72,10 @@ class CategoryDetailView(DetailView):
 	template_name = 'category_detail.html'
 	context_object_name = 'category'
 	pk_url_kwarg = 'cat_id'
-	extra_context = {'categories': Category.objects.only('name')}
+	extra_context = {
+		'categories': Category.objects.only('name'),
+		'form': SearchForm,
+		}
 
 	def get_queryset(self, *args, **wkargs):
 		return Category.objects.prefetch_related('article_set')
@@ -83,3 +94,21 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
 
 	def get_success_url(self):
 		return reverse('article_detail', kwargs={'pk' : self.kwargs.get('pk')})
+
+#Поиск
+class SearchView(ListView): 
+	model = Article
+	context_object_name = 'article_list'
+	template_name = 'search_results.html'
+	extra_context = {
+		'categories': Category.objects.only('name'),
+		'form': SearchForm,
+		}
+
+	def get_queryset(self):
+		keyword = self.request.GET.get('keyword')
+		category = self.request.GET.get('category')
+
+		return Article.objects.filter(
+			(Q(title__icontains=keyword) | Q(body__icontains=keyword)) & Q(category=category)
+		)

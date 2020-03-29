@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}Категория {{ category.name }}{% endblock title %}
+{% block title %}Результаты поиска{% endblock title %}
 
 {% block content %}
 
-	<center><h2>Новости категории: {{ category.name }}</h2></center>
-	{% for article in category.article_set.all %}
+	<center><h2>Результаты поиска:</h2></center>
+	{% for article in article_list.all %}
 	<div class="card">
 		<div class="card-header">
 			<p><span class="font-weight"><a href="{% url 'article_detail' article.pk %}">{{ article.title|truncatewords:20 }}</a></span></p>

@@ -8,6 +8,7 @@ from .views import (
 	ArticleCreateView,
 	CommentCreateView,
 	CategoryDetailView,
+	SearchView,
 	)
 
 urlpatterns = [
@@ -18,4 +19,5 @@ urlpatterns = [
 	path('article_new/', ArticleCreateView.as_view(), name='article_new'),
 	path('', ArticleListView.as_view(), name='article_list'),
 	path('category/<int:cat_id>/', CategoryDetailView.as_view(), name='category_detail'),
+	path('search/', SearchView.as_view(), name='search'),
 ]

@@ -1,21 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}
-	Home
-{% endblock title %}
+{% load crispy_forms_tags %}
+
+{% block title %}Сельский Хакер{% endblock title %}
 
 {% block content %}
 
-	<ul class="nav justify-content-center">
-		<li class="nav-item">
-			<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Категории:</a>
-		</li>
-		{% for category in categories %}
-		<li class="nav-item">
-			<a class="nav-link active" href="{% url 'category_detail' category.pk %}">{{ category.name }}</a>
-		</li>
-		{% endfor %}
-	</ul>
+
+
 	{% if user.is_authenticated %}
 		Приветствуем тебя {{ user.username }}!
 	{% else %}
@@ -23,11 +15,12 @@
 	{% endif %}
 
 	<div class="jumbotron">
-		<h1 class="display-?">Газета "Сельский Хакер"</h1>
+		<h1 class="display-4">Газета "Сельский Хакер"</h1>
 		<p class="lead">Свежие новости мира ИТ и не только от лучших хакеров нашего посёлка!</p>
 		<p class="lead">
 			<a class="btn btn-outline-primary" href="{% url 'article_list' %}" role="button">Все статьи</a>
 		</p>
 	</div>
+
 
 {% endblock content %}
