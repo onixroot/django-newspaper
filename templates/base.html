@@ -1,81 +1,65 @@
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+{% load filtersandtags %}
+
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-	<title>Newspaper App</title>
+	<title>Сельский Хакер</title>
 </head>
 <body>
 	<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
 		<a class="navbar-brand" href="{% url 'home' %}">Сельский Хакер</a>
-
-	<form class="form-inline navbar-brand" action="{% url 'search' %}" method="get">
-		<div class="input-group">
-			<div class="input-group-prepend">
-				<label class="input-group-text">Категория</label>
+		<form class="form-inline navbar-brand" action="{% url 'search' %}" method="get">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<label class="input-group-text">Категория</label>
+				</div>
+				{{ search_form.category }}{{ search_form.keyword }}
+				<button class="btn btn-outline-primary ml-2" type="submit">Поиск</button>
 			</div>
-			{{ form.category }}{{ form.keyword }}
-			<button class="btn btn-outline-primary ml-2" type="submit">Поиск</button>
-		</div>
-	</form>
+		</form>
 
 		{% if perms.articles.add_article %}
-			<ul class="navbar-nav ml-auto">
-				<li class="nav-item"><a href="{% url 'article_new' %}">+ Добавить новость</a></li>
-			</ul>
+		<ul class="navbar-nav ml-auto">
+			<li class="nav-item"><a href="{% url 'article_new' %}">+ Добавить новость</a></li>
+		</ul>
 		{% endif %}
-
-
 
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarCollapse">
-			
 			{% if user.is_authenticated %}
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item">
-						<a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ user.username }}</a>
-						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
-							<a class="dropdown-item" href="{% url 'password_change'%}">Change password</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="{% url 'logout' %}">Log Out</a>
-						</div>
-					</li>
-				</ul>
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item">
+					<a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ user.username }}</a>
+					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
+						<a class="dropdown-item" href="{% url 'password_change'%}">Изменить пароль</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="{% url 'logout' %}">Выйти</a>
+					</div>
+				</li>
+			</ul>
 			{% else %}
-				<form class="form-inline ml-auto">
-					<a href="{% url 'login' %}" class="btn btn-outline-secondary">Log In</a>
-					<a href="{% url 'signup' %}" class="btn btn-primary ml-2">Sign up</a>
-				</form>
+			<form class="form-inline ml-auto">
+				<a href="{% url 'login' %}" class="btn btn-outline-secondary">Войти</a>
+				<a href="{% url 'signup' %}" class="btn btn-primary ml-2">Зарегистрироваться</a>
+			</form>
 			{% endif %}
-
 		</div>
 	</nav>
-
 	
-
-	<ul class="nav justify-content-center">
-		<li class="nav-item">
-			<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Категории:</a>
-		</li>
-		{% for category in categories %}
-		<li class="nav-item">
-			<a class="nav-link active" href="{% url 'category_detail' category.pk %}">{{ category.name }}</a>
-		</li>
-		{% endfor %}
-	</ul>
+	{% categories_list categories %}
 
 	<div class="container">
 		{% block content %}
-
 		{% endblock content %}
 	</div>
-
-	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="ha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
 </body>
 </html>

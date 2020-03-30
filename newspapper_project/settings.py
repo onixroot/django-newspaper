@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 
     # 3rd Party
     'crispy_forms',
+    'bootstrap4',
 
     # Built-in
     'django.contrib.admin',
@@ -73,6 +74,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'articles.context_processors.categories_and_search',
             ],
         },
     },

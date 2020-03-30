@@ -8,4 +8,3 @@ from articles.forms import SearchForm
 
 class HomePageView(TemplateView):
 	template_name = 'home.html'
-	extra_context = {'categories': Category.objects.only('name'), 'form': SearchForm}

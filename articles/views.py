@@ -16,18 +16,10 @@ class ArticleListView(ListView):
 	template_name = 'article_list.html'
 	context_object_name = 'articles'
 	paginate_by = 2
-	extra_context = {
-		'categories': Category.objects.only('name'),
-		'form': SearchForm,
-		}
 
 class ArticleDetailView(DetailView):
 	model = Article
 	template_name = 'article_detail.html'
-	extra_context = {
-		'categories': Category.objects.only('name'),
-		'form': SearchForm,
-		}
 
 class ArticleUpdateView(PermissionRequiredMixin, UpdateView):
 	model = Article
@@ -60,7 +52,7 @@ class ArticleCreateView(PermissionRequiredMixin, CreateView):
 	template_name = 'article_new.html'
 	login_url = 'login'
 	permission_required = 'articles.add_article'
-
+		
 	def form_valid(self, form):
 		form.instance.author = self.request.user
 		return super().form_valid(form)
@@ -72,10 +64,6 @@ class CategoryDetailView(DetailView):
 	template_name = 'category_detail.html'
 	context_object_name = 'category'
 	pk_url_kwarg = 'cat_id'
-	extra_context = {
-		'categories': Category.objects.only('name'),
-		'form': SearchForm,
-		}
 
 	def get_queryset(self, *args, **wkargs):
 		return Category.objects.prefetch_related('article_set')
@@ -100,10 +88,6 @@ class SearchView(ListView):
 	model = Article
 	context_object_name = 'article_list'
 	template_name = 'search_results.html'
-	extra_context = {
-		'categories': Category.objects.only('name'),
-		'form': SearchForm,
-		}
 
 	def get_queryset(self):
 		keyword = self.request.GET.get('keyword')

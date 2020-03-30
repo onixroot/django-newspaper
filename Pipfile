@@ -10,6 +10,7 @@ django = "*"
 gunicorn = "*"
 whitenoise = "*"
 django-crispy-forms = "*"
+django-bootstrap4 = "*"
 
 [requires]
 python_version = "3.7"
