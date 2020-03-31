@@ -4,6 +4,8 @@
 
 {% load filtersandtags %}
 
+{% load cache %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,7 +56,9 @@
 		</div>
 	</nav>
 	
+	{% cache 3600 category_list %}
 	{% categories_list categories %}
+	{% endcache %}
 
 	<div class="container">
 		{% block content %}

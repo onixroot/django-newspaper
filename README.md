@@ -9,6 +9,7 @@
 - Custom Template Tags
 - Custom Context Processor
 - Pop-up messages
+- Template fragment caching
 - Tests
 
 Heroku deployment:<br>
