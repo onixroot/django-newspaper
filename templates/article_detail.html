@@ -1,28 +1,35 @@
 {% extends 'base.html' %}
 
 {% block content %}
-	<div class="card">
-		<div class="card-header">
-			<p><span class="font-weight"><h2>{{ article.title }}</h2></span></p>
-			<span class="text-muted">Автор: {{ article.author }} | {{ article.date }}</span>
-			<span class="float-right">Категория: <a href="{% url 'category_detail' article.category.pk %}">{{ article.category.name }}</a></span>
-		</div>
-		<div class="card-body">
-			{{ article.body|linebreaks }}
-		</div>
-		<div class="card-footer text-center text-muted">
-			<a href="{% url 'comment_new' article.pk %}">Комментировать</a>
-			{% if perms.articles.change_article and perms.articles.delete_article %}
-			| <a href="{% url 'article_edit' article.pk %}">Редактировать</a> |
-			<a href="{% url 'article_delete' article.pk %}">Удалить</a>
-			{% endif %}
-		</div>
-		{% for comment in article.comments.all %}
-		<div class="card-footer">
-			<p><span class="font-weight-bold">{{ comment.author }}</span><span class="text-muted">: {{ comment }}</span></p>
-		</div>
-		{% endfor %}
-	
+
+{% if messages %}
+<div class="alert alert-success" role="alert">
+{% for message in messages %}{{ message }}{% endfor %}
+</div>
+{% endif %}
+
+<div class="card">
+	<div class="card-header">
+		<p><span class="font-weight"><h2>{{ article.title }}</h2></span></p>
+		<span class="text-muted">Автор: {{ article.author }} | {{ article.date }}</span>
+		<span class="float-right">Категория: <a href="{% url 'category_detail' article.category.pk %}">{{ article.category.name }}</a></span>
 	</div>
-	<p><a href="{% url 'article_list' %}">Все статьи</a></p>
+	<div class="card-body">
+		{{ article.body|linebreaks }}
+	</div>
+	<div class="card-footer text-center text-muted">
+		<a href="{% url 'comment_new' article.pk %}">Комментировать</a>
+		{% if perms.articles.change_article and perms.articles.delete_article %}
+		| <a href="{% url 'article_edit' article.pk %}">Редактировать</a> |
+		<a href="{% url 'article_delete' article.pk %}">Удалить</a>
+		{% endif %}
+	</div>
+	{% for comment in article.comments.all %}
+	<div class="card-footer">
+		<p><span class="font-weight-bold">{{ comment.author }}</span><span class="text-muted">: {{ comment }}</span></p>
+	</div>
+	{% endfor %}
+
+</div>
+<p><a href="{% url 'article_list' %}">Все статьи</a></p>
 {% endblock content %}

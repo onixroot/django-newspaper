@@ -2,13 +2,13 @@
 - Registration
 - Authentication
 - Authorization
-- Custom User Model (extra fields)
+- Custom User Model
 - Pass Change/Reset
-- Staticfiles (module whitenoise)
-- Querysets optimization (prefetch_related(), only())
-- Forms (Form, ModelForm)
-- Custom Tags
+- Querysets optimization
+- Forms
+- Custom Template Tags
 - Custom Context Processor
+- Pop-up messages
 - Tests
 
 Heroku deployment:<br>

@@ -6,6 +6,7 @@ from django.views.generic.edit import UpdateView, DeleteView, CreateView
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.db.models import Q
+from django.contrib.messages.views import SuccessMessageMixin
 
 from .models import Article, Category, Comment
 from .forms import CommentForm, ArticleForm, SearchForm
@@ -70,10 +71,11 @@ class CategoryDetailView(DetailView):
 
 
 #Комментарии
-class CommentCreateView(LoginRequiredMixin, CreateView):
+class CommentCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 	form_class = CommentForm
 	template_name = 'comment_new.html'
 	login_url = 'login'
+	success_message = 'Ваш комментарий добавлен к статье'
 
 	def form_valid(self, form):
 		form.instance.author = self.request.user
