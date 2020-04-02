@@ -41,8 +41,3 @@ class SearchForm(Form):
 	keyword = CharField(
 		max_length=30,
 		label='Ключевое слово',)
-	category = ModelChoiceField(
-		queryset=Category.objects.all(),
-		label='Категория',
-		empty_label='',
-		)

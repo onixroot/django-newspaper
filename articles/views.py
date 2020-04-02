@@ -12,6 +12,10 @@ from .models import Article, Category, Comment
 from .forms import CommentForm, ArticleForm, SearchForm
 
 #Статьи
+
+def article_lmf(request, pk):
+	return Article.objects.get(pk=pk).date
+
 class ArticleListView(ListView):
 	model = Article
 	template_name = 'article_list.html'
@@ -93,8 +97,7 @@ class SearchView(ListView):
 
 	def get_queryset(self):
 		keyword = self.request.GET.get('keyword')
-		category = self.request.GET.get('category')
 
 		return Article.objects.filter(
-			(Q(title__icontains=keyword) | Q(body__icontains=keyword)) & Q(category=category)
+			Q(title__icontains=keyword) | Q(body__icontains=keyword)
 		)

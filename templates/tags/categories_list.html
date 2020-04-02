@@ -1,10 +1,14 @@
 <ul class="nav justify-content-center">
 	<li class="nav-item">
-		<a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Категории:</a>
+		<a class="nav-link disabled text-uppercase" href="#" tabindex="-1" aria-disabled="true">Категории:</a>
 	</li>
 	{% for category in categories %}
-	<li class="nav-item">
+	<li class="nav-item text-uppercase">
 		<a class="nav-link active" href="{% url 'category_detail' category.pk %}">{{ category.name }}</a>
 	</li>
 	{% endfor %}
+	<li class="nav-item text-uppercase">
+		<a class="nav-link active" href="{% url 'article_list' %}">Все Статьи</a>
+	</li>
 </ul>
+
