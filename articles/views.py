@@ -11,7 +11,6 @@ from django.contrib.messages.views import SuccessMessageMixin
 from .models import Article, Category, Comment
 from .forms import CommentForm, ArticleForm, SearchForm
 
-#Статьи
 
 def article_lmf(request, pk):
 	return Article.objects.get(pk=pk).date
@@ -62,8 +61,6 @@ class ArticleCreateView(PermissionRequiredMixin, CreateView):
 		form.instance.author = self.request.user
 		return super().form_valid(form)
 
-
-#Категории
 class CategoryDetailView(DetailView):
 	model = Category
 	template_name = 'category_detail.html'
@@ -73,8 +70,6 @@ class CategoryDetailView(DetailView):
 	def get_queryset(self, *args, **wkargs):
 		return Category.objects.prefetch_related('article_set')
 
-
-#Комментарии
 class CommentCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 	form_class = CommentForm
 	template_name = 'comment_new.html'
@@ -89,7 +84,6 @@ class CommentCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 	def get_success_url(self):
 		return reverse('article_detail', kwargs={'pk' : self.kwargs.get('pk')})
 
-#Поиск
 class SearchView(ListView): 
 	model = Article
 	context_object_name = 'article_list'
